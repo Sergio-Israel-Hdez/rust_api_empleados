@@ -1,0 +1,13 @@
+# Ignorar la carpeta target donde se guarda el resultado de la compilación local
+target/
+
+# Ignorar carpetas ocultas
+.*
+
+# Ignorar archivos específicos del sistema operativo
+*.DS_Store
+*.log
+
+# Ignorar dependencias y configuraciones locales
+node_modules/
+Dockerfile

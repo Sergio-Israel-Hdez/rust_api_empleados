@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  rustapiempleado:
+    container_name: rustapiempleado
+    image: h2k2/rustapiempleado:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL= mysql://userinfo:admin@mysql:3306/clientcodedb
+    ports:
+      - '9001:9001'
+    networks:
+      - my-network-mysql
+networks:
+  my-network-mysql:
+    external: true
