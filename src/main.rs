@@ -11,6 +11,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(empleado::getempleados)
             .service(empleado::addempleado)
+            .service(empleado::getempleado)
     })
         .bind(("0.0.0.0",9001))?
         .run()
