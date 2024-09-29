@@ -5,11 +5,19 @@ use db::empleado::fetch_empleados;
 use actix_web::{get,post,HttpResponse,Responder,web};
 use sqlx::{MySql, MySqlPool, Pool};
 use crate::db;
-use crate::db::empleado::save_empleado;
+use crate::db::empleado::{fetch_empleado_id, save_empleado};
 use crate::models::empleado::{Empleado, EmpleadoDto, FromDTO, ValidarEmp};
 use env_logger::Env;
 use log::{info,warn,error};
+use serde::Deserialize;
 
+
+#[derive(Deserialize)]
+struct QueryParams{
+    filtro: Option<String>,
+    estado: Option<String>,
+    id: Option<i32>
+}
 
 #[get("/api/empleado/get_empleados")]
 async fn getempleados() ->impl Responder{
@@ -30,7 +38,29 @@ async fn getempleados() ->impl Responder{
         },
     }
 }
-
+#[get("/api/empleado/get_empleado")]
+async fn getempleado(params: web::Query<QueryParams>) ->impl Responder{
+    dotenv().ok();
+    info!("Se ha recibido una solicitud a get_empleados");
+    if params.id.is_none(){
+        return HttpResponse::BadRequest().body("Id no proporcionado")
+    }
+    let url = env::var("DATABASE_URL")
+        .expect(("DATABASE_URL puede ser seteada"));
+    let pool = MySqlPool::connect_lazy(&url).expect("Fallo al crear el pool");
+    let _id = params.id.unwrap();
+    info!("Id es: {:?}",_id);
+    match fetch_empleado_id(&pool, _id).await {
+        Ok(empleados) => {
+            info!("Empleados recuperados exitosamente");
+            HttpResponse::Ok().json(empleados)
+        },
+        Err(_e) => {
+            error!("Ha ocurrido un error en get_empleados: {:?}",_e);
+            HttpResponse::BadRequest().body("ocurrio un error")
+        },
+    }
+}
 
 #[post("/api/empleado/add_empleado")]
 async fn addempleado(empleado: web::Json<EmpleadoDto>) -> impl Responder {
