@@ -48,7 +48,7 @@ async fn addempleado(empleado: web::Json<EmpleadoDto>) -> impl Responder {
 
     match save_empleado(&pool, _empleado).await {
         Ok(_) => {
-            info!("Empleado agregado con exito: {:?}",_empleado);
+            info!("Empleado agregado con exito");
             HttpResponse::Ok().body("usuario agregado con exito")
         },
         Err(_e) => {
