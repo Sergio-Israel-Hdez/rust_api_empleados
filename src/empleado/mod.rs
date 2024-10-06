@@ -90,5 +90,5 @@ async fn addempleado(empleado: web::Json<EmpleadoDto>) -> impl Responder {
 
 #[post("/api/empleado/hola")]
 async fn hola() -> impl Responder{
-    HttpResponse::body("Hola desde nuevo metodo")
+    HttpResponse::Ok().body("metodo corregido")
 }
