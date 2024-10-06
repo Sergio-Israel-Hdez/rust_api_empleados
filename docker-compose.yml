@@ -2,6 +2,7 @@ version: "3.8"
 services:
   rustapiempleado:
     container_name: rustapiempleado
+    #en teamcity se crea un parametro BUILD_NUMBER con el valor de %build.counter%
     image: h2k2/rustapiempleado:${BUILD_NUMBER}
     build:
       context: .
