@@ -88,4 +88,7 @@ async fn addempleado(empleado: web::Json<EmpleadoDto>) -> impl Responder {
     }
 }
 
-
+#[post("/api/empleado/hola")]
+async fn hola() -> impl Responder{
+    return HttpResponse::body("Hola desde nuevo metodo");
+}
