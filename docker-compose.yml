@@ -2,7 +2,7 @@ version: "3.8"
 services:
   rustapiempleado:
     container_name: rustapiempleado
-    image: h2k2/rustapiempleado:latest
+    image: h2k2/rustapiempleado:{BUILD_NUMBER}
     build:
       context: .
       dockerfile: Dockerfile
