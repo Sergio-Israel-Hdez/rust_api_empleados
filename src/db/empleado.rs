@@ -40,13 +40,13 @@ pub async fn fetch_empleado_id(pool: &MySqlPool, id:i32) -> Result<EmpleadoDto,s
     };
     Ok(empleado)
 }
-pub async fn save_empleado(pool: &MySqlPool,empleado: Empleado) -> Result<(),sqlx::Error>{
-    let _:Result<MySqlQueryResult,Error> = sqlx::query(
+pub async fn save_empleado(pool: &MySqlPool,empleado: Empleado) -> Result<MySqlQueryResult,sqlx::Error>{
+    let result= sqlx::query(
         "INSERT INTO empleados (nombre, apellido, genero, fecha_nacimiento) VALUES(?,?,?,?)")
         .bind(&empleado.nombre)
         .bind(&empleado.apellido)
         .bind(&empleado.genero)
         .bind(&empleado.fecha_nacimiento)
-        .execute(pool).await;
-    Ok(())
+        .execute(pool).await?;
+    Ok(result)
 }

@@ -74,8 +74,8 @@ async fn addempleado(empleado: web::Json<EmpleadoDto>) -> impl Responder {
     let _empleado: Empleado = Empleado::from_dto(empleado.into_inner());
     let url: String = env::var("DATABASE_URL")
         .expect("DATABASE_URL puede ser seteada");
-    let pool: Pool<MySql> = MySqlPool::connect_lazy(&url).expect("Fallo al crear el pool");
-
+    // let pool: Pool<MySql> = MySqlPool::connect_lazy(&url).expect("Fallo al crear el pool");
+    let pool: Pool<MySql> = MySqlPool::connect(&url).await.expect("Fallo al crear el pool");
     match save_empleado(&pool, _empleado).await {
         Ok(_) => {
             info!("Empleado agregado con exito");
